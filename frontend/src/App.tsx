@@ -1,7 +1,5 @@
-import React, { Ref, useRef } from 'react';
-import logo from './logo.svg';
+import React, { useRef } from 'react';
 import './App.css';
-import { JsxElement } from 'typescript';
 
 function App() {
 
