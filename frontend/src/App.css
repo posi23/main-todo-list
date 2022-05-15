@@ -1,38 +1,62 @@
-.App {
-  text-align: center;
+.main-card{
+  margin: 100px 400px;
+  background-color: #fff;
+  box-shadow: 1px 0px 40px grey;
+  min-height: 60vh;
+  border-radius: 10px;
+  
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.tabs{
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  padding: 1.7em 2em;
+  border-bottom: 1px solid rgb(243, 238, 249);
+}
+
+.tab{
+  margin-right: 3em;
+  font-weight: bold;
+  font-size: 1.2rem;
+  letter-spacing: 0.5px;
+  color: rgb(148, 147, 150);
+  position: relative;
+  cursor: pointer
+}
+
+.tab:hover{
+  color: black;
+}
+
+/* .tabs p.active{
+  color: #000;
+  padding-bottom: 30px;
+  border-bottom: 1.5px solid rgb(100, 24, 162);
+} */
+
+.notification-badge{
+  position: absolute;
+  bottom: 0%;
+  left: 105%;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background-color: rgb(243, 238, 249);
+  display: flex;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  align-items: center;
 }
 
-.App-link {
-  color: #61dafb;
+.noti-count{
+  font-weight: 700;
+  font-size: 0.9rem;
+  color: rgb(148, 147, 150);
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.active-bar{
+  display: none;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: rgb(100, 24, 162);
+  bottom: -125%
 }

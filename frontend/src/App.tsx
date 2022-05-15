@@ -1,24 +1,37 @@
-import React from 'react';
+import React, { Ref, useRef } from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { JsxElement } from 'typescript';
 
 function App() {
+
+  const notificationActiveBarRef = useRef<null | HTMLDivElement>(null)
+  const todoActiveBarRef = useRef<null | HTMLDivElement>(null)
+
+  const appointActiveBar = (activeBarRef: React.MutableRefObject<HTMLDivElement | null>) => {
+    if (activeBarRef.current !== null) {
+      activeBarRef.current.style.display = "block"
+    }
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='main-card'>
+      <div className="tabs">
+        <div className="tab" onClick={(e) => appointActiveBar(notificationActiveBarRef)}>
+          Notification
+          <div className='notification-badge'>
+            <div className='noti-count'>1</div>
+          </div>
+          <div ref={notificationActiveBarRef} className='active-bar'></div>
+        </div>
+        <div className="tab" onClick={(e) => appointActiveBar(todoActiveBarRef)}>
+          Todo
+          <div className='notification-badge'>
+            <div className='noti-count'>3</div>
+          </div>
+          <div ref={todoActiveBarRef} className='active-bar'></div>
+        </div>
+      </div>
     </div>
   );
 }
