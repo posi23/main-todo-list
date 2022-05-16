@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import './App.css';
-import MainCard from './components/MainCard';
-import Todos from './components/Todos';
 import { TodoState } from './utils/utils';
-import { BrowserRouter as Router, Route, Routes, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Notification from './tabs/Notification';
 import Todo from './tabs/Todo';
 import Layout from './components/Layout';
@@ -17,6 +15,13 @@ function App() {
       description: "Would be good if we include every component",
       dueDate: new Date("16 May 2022"),
       assignee: "Esther Howard",
+      completed: true
+    },
+
+    {
+      taskName: "Landing Page Design",
+      dueDate: new Date("20 May 2022"),
+      assignee: "Brooklyn Simmons",
       completed: false
     }
   ])
@@ -27,7 +32,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Layout />}>
             <Route path="/notification" element={<Notification />} />
-            <Route path="/todo" element={<Todo />} />
+            <Route path="/todo" element={<Todo type={todos} />} />
           </Route>
         </Routes>
       </div>
