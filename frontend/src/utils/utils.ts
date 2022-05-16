@@ -1,12 +1,14 @@
 
 export interface TodoItem {
-      taskName: string,
-      description: string,
-      dueDate: Date,
-      assignee: string,
-      completed: boolean | false
+      value: {
+            taskName: string,
+            description?: string,
+            dueDate: Date,
+            assignee: string,
+            completed: boolean
+      }
 }
 
 export interface TodoState {
-      type: TodoItem[]
+      type: TodoItem["value"][]
 }
