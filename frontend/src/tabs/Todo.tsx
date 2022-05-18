@@ -1,17 +1,34 @@
 import React from 'react'
 import { TodoState } from '../utils/utils'
 import { FiCalendar } from "react-icons/fi"
-import { BsPerson, BsDot, BsCheckLg } from "react-icons/bs"
+import { BsPerson, BsDot, BsCheckLg, BsTrash } from "react-icons/bs"
 
-function Todo({ type }: TodoState) {
-      // const { taskName, description, dueDate, assignee, completed } = todos
-      const todos = type
+interface IProps {
+      todosObject: {
+            todos: TodoState["type"],
+            setTodos: React.Dispatch<React.SetStateAction<TodoState["type"]>>
+      }
+}
+
+function Todo({ todosObject }: IProps) {
+
+      const { todos, setTodos } = todosObject
+
+      const deleteTodo = (id: number) => {
+            setTodos(prev => prev.filter(each => each.id !== id))
+      }
+
+      const updateCompleteUncomplete = (id: number) => {
+            setTodos(prev =>
+                  prev.map(each => each.id === id ? { ...each, completed: !each.completed } : each)
+            )
+      }
 
       return (
             <div>
-                  {todos.map(todo => (
-                        <div className='main-display'>
-                              <div className='completed-circle'>
+                  {todos.map((todo) => (
+                        <div className='main-display' key={todo.id}>
+                              <div className='completed-circle' onClick={() => updateCompleteUncomplete(todo.id)}>
                                     {todo.completed && <BsCheckLg color="green" />}
                               </div>
 
@@ -38,11 +55,12 @@ function Todo({ type }: TodoState) {
                                     <p className='completed'>{todo.completed}</p>
 
                               </div>
+
+                              <div className='delete-icon' onClick={() => deleteTodo(todo.id)}>
+                                    <BsTrash size={25} />
+                              </div>
                         </div>
                   ))}
-
-
-
             </div>
       )
 }

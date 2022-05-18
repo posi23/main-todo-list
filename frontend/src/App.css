@@ -1,10 +1,13 @@
+.main{
+  position: relative;
+}
+
 .main-card{
   margin: 100px 400px;
   background-color: #fff;
   box-shadow: 1px 0px 40px grey;
   min-height: 60vh;
   border-radius: 10px;
-  
 }
 
 .tabs{
@@ -38,7 +41,7 @@
   width: 20px;
   height: 20px;
   border-radius: 50%;
-  background-color: rgb(218, 213, 224);
+  background-color: rgb(240, 240, 240);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -56,6 +59,12 @@
   bottom: -110%;
   position: absolute;
   border-bottom: 2px solid rgb(100, 24, 162);
+}
+
+.add-icon{
+  position: absolute;
+  left: 68%;
+  cursor: pointer;
 }
 
 .main-display{
@@ -121,11 +130,174 @@
   margin-right: 0.5em;
 }
 
+.delete-icon{
+  position: absolute;
+  left: 68%;
+  cursor: pointer;
+}
+
 .add-task-card {
-  margin: 0 200px;
+  display: none;
   background-color: #fff;
   box-shadow: 1px 0px 40px grey;
-  min-height: 60vh;
+  min-height: 30vh;
   border-radius: 10px;
+  position: absolute;
+  bottom: -30%;
+  left: 25%;
+  width: 50%;
+  flex-direction: column;
+  padding: 2em;
+}
 
+::placeholder {
+  color: rgba(0, 0, 0, 0.215);
+}
+
+.task-name-input, .add-new-assignee{
+  margin-bottom: 1em;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  font-weight: bold;
+}
+
+.description-input{
+  outline: none;
+  border: none;
+}
+.button-container{
+  position: absolute;
+  width: 91%;
+  bottom: 0%;
+  display: flex;
+  justify-content: space-between;
+}
+
+.completion-time-buttons, .card-action-buttons {
+  display: flex;
+  margin-bottom: 1em;
+  /* height: 100%; */
+}
+
+.date-btn, .assignee-btn, .cancel-btn,
+.add-btn, .reset-assignee-btn, .confirm-assignee-btn{
+  border: 1px solid rgba(0, 0, 0, 0.215);
+  border-radius: 10px;
+  font-size: 1rem;
+  text-align: center;
+  background-color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0.3em 0.8em;
+  cursor: pointer;
+  color: rgb(106, 99, 113);
+  font-weight: bold;
+}
+
+.assignee-btn, .add-btn{
+  margin-left: 1em
+}
+
+.completion-time-buttons span{
+  margin-right: 0.5em
+}
+
+.add-btn{
+  background-color:rgb(100, 24, 162);
+  color: #fff;
+}
+
+.modal {
+  display: none;
+  /* Hidden by default */
+  position: fixed;
+  /* Stay in place */
+  z-index: 1;
+  /* Sit on top */
+  left: 0;
+  top: 0;
+  width: 100%;
+  /* Full width */
+  height: 100%;
+  /* Full height */
+  overflow: auto;
+  /* Enable scroll if needed */
+  background-color: rgb(0, 0, 0);
+  /* Fallback color */
+  background-color: rgba(0, 0, 0, 0.4);
+  /* Black w/ opacity */
+}
+
+/* Modal Content/Box */
+.modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  /* 15% from the top and centered */
+  padding: 20px;
+  border: 1px solid #888;
+  width: 40%;
+  /* Could be more or less, depending on screen size */
+}
+
+.modal-header{
+  margin-top: 0.5em;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+.modal-content ul{
+  margin: 1.5em 0;
+}
+
+.modal-content ul li{
+  cursor: pointer;
+  color: rgb(106, 99, 113);
+  margin-bottom: 0.5em;
+}
+
+.modal-content ul li:hover, .modal-content ul li:focus {
+  color: rgb(100, 24, 162);
+  font-size: 1.1rem;
+}
+
+/* The Close Button */
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.reset-assignee{
+  display: flex;
+  justify-self: space-between;
+}
+
+.add-new-assignee {
+  margin-top: 0.5em;
+  outline: none;
+  border: none;
+  font-size: 1rem;
+  /* font-weight: bold; */
+}
+
+.modal-action-buttons{
+  position: absolute;
+  left: 56%;
+  display: flex;
+}
+
+.confirm-assignee-btn{
+  margin-left: 1em;
+  color: #fff;
+  background-color: rgb(100, 24, 162);
 }

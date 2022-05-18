@@ -1,12 +1,23 @@
 import React, { useRef, useEffect, useCallback } from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
+import { GrAdd } from 'react-icons/gr'
 
-function Layout() {
+interface IProps {
+      newTodoCardOpen: {
+            isNewTodoCardOpen: boolean,
+            setIsNewTodoCardOpen: React.Dispatch<React.SetStateAction<boolean>>
+      }
+}
+
+function Layout({ newTodoCardOpen }: IProps) {
+
+      const { isNewTodoCardOpen, setIsNewTodoCardOpen } = newTodoCardOpen
 
       const notificationTextRef = useRef<HTMLAnchorElement | null>(null)
       const todoTextRef = useRef<HTMLAnchorElement | null>(null)
       const notificationActiveRef = useRef<HTMLDivElement | null>(null)
       const todoActiveRef = useRef<HTMLDivElement | null>(null)
+      const addIconRef = useRef<HTMLDivElement | null>(null)
 
       const navigate = useNavigate()
 
@@ -39,7 +50,13 @@ function Layout() {
       useEffect(() => {
             appointActiveTab("todo")
             navigate("/todo")
+            // eslint-disable-next-line react-hooks/exhaustive-deps
       }, [appointActiveTab])
+
+      useEffect(() => {
+            if (isNewTodoCardOpen && addIconRef.current) addIconRef.current.style.display = 'none'
+            else if (!isNewTodoCardOpen && addIconRef.current) addIconRef.current.style.display = 'block'
+      }, [isNewTodoCardOpen])
 
       return (
             <>
@@ -63,6 +80,10 @@ function Layout() {
                                     <div className='noti-count'>3</div>
                               </div>
                               <div ref={todoActiveRef} className="active-bar"></div>
+                        </div>
+
+                        <div className='add-icon' onClick={(e) => setIsNewTodoCardOpen(true)} ref={addIconRef}>
+                              <GrAdd size={25} />
                         </div>
 
                   </div>
