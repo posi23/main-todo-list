@@ -33,7 +33,7 @@ function App() {
 
   const determineTheNextId = (): number => {
     const ids = todos.map(each => each.id)
-    return Math.max(...ids)
+    return Math.max(...ids) + 1
   }
 
   return (

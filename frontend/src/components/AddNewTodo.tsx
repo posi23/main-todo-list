@@ -36,7 +36,7 @@ function AddNewTodo({ setTodos, newTodoCardOpen, determineTheNextId }: IProps) {
                         taskName,
                         description,
                         dueDate: new Date("16 May 2022"),
-                        assignee: "Esther Howard",
+                        assignee: assignee,
                         completed: false
                   }
                   if (newTodo) {
