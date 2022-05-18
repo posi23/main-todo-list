@@ -62,8 +62,9 @@ function AddNewTodo({ setTodos, newTodoCardOpen, determineTheNextId }: IProps) {
       }
 
       useEffect(() => {
-            if (isNewTodoCardOpen && newTodoCardRef.current) newTodoCardRef.current.style.display = 'flex'
-            else if (!isNewTodoCardOpen && newTodoCardRef.current) newTodoCardRef.current.style.display = 'none'
+            if (newTodoCardRef.current) {
+                  newTodoCardRef.current.style.display = isNewTodoCardOpen ? 'flex' : 'none'
+            }
       }, [isNewTodoCardOpen])
 
       return (

@@ -24,8 +24,6 @@ function Modal({ isModalOpen, setIsModalOpen, setAssignee }: IProps) {
       }
 
       useEffect(() => {
-            // if (isModalOpen && modalRef.current) modalRef.current.style.display = "block"
-            // else if (isModalOpen &&)
             if (modalRef.current) {
                   modalRef.current.style.display = isModalOpen ? "block" : "none"
             }
