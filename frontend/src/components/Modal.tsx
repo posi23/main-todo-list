@@ -42,7 +42,7 @@ function Modal({ isModalOpen, setIsModalOpen, setAssignee }: IProps) {
                                     )}
                         </ul>
 
-                        <div className="reset-assignee">
+                        <div className="modal-footer">
 
                               <form onSubmit={(e) => updateAssigneeList(e)}>
                                     <input

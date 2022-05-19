@@ -1,5 +1,5 @@
-import React from 'react'
-import { TodoState } from '../utils/utils'
+import React, { useEffect } from 'react'
+import { getAmountOfUncompletedTodos, TodoState } from '../utils/utils'
 import { FiCalendar } from "react-icons/fi"
 import { BsPerson, BsDot, BsCheckLg, BsTrash } from "react-icons/bs"
 
@@ -25,7 +25,7 @@ function Todo({ todosObject }: IProps) {
       }
 
       return (
-            <div>
+            <>
                   {todos.map((todo) => (
                         <div className='main-display' key={todo.id}>
                               <div className='completed-circle' onClick={() => updateCompleteUncomplete(todo.id)}>
@@ -61,7 +61,7 @@ function Todo({ todosObject }: IProps) {
                               </div>
                         </div>
                   ))}
-            </div>
+            </>
       )
 }
 

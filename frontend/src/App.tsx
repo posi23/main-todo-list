@@ -1,15 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
-import { TodoState } from './utils/utils';
+import { getAmountOfUncompletedTodos, TodoState } from './utils/utils';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
-import Notification from './tabs/Notification';
 import Todo from './tabs/Todo';
 import Layout from './components/Layout';
 import AddNewTodo from './components/AddNewTodo';
+import Activity from './tabs/Activity';
 
 function App() {
 
-  // const [activeTab, setActiveTab] = useState<HTMLDivElement | null>(null)
   const [todos, setTodos] = useState<TodoState["type"]>([
     {
       id: 1,
@@ -30,25 +29,30 @@ function App() {
   ])
 
   const [isNewTodoCardOpen, setIsNewTodoCardOpen] = useState<boolean>(false)
+  const [activityNotification, setActivityNotification] = useState<number>(1)
+  const [todoNotification, setTodoNotification] = useState<number>(0)
 
-  const determineTheNextId = (): number => {
-    const ids = todos.map(each => each.id)
-    return Math.max(...ids) + 1
-  }
+  useEffect(() => {
+    let newTodoNotification = getAmountOfUncompletedTodos(todos)
+    setTodoNotification(newTodoNotification)
+  }, [todos])
 
   return (
     <Router>
       <div className='main'>
         <div className='main-card'>
           <Routes>
-            <Route path="/" element={<Layout newTodoCardOpen={{ isNewTodoCardOpen, setIsNewTodoCardOpen }} />}>
-              <Route path="/notification" element={<Notification />} />
+            <Route path="/" element={<Layout
+              newTodoCardOpen={{ isNewTodoCardOpen, setIsNewTodoCardOpen }}
+              todoNotification={todoNotification}
+              activityNotification={activityNotification} />}>
+              <Route path="/activity" element={<Activity />} />
               <Route path="/todo" element={<Todo todosObject={{ todos, setTodos }} />} />
             </Route>
           </Routes>
         </div>
 
-        <AddNewTodo setTodos={setTodos} newTodoCardOpen={{ isNewTodoCardOpen, setIsNewTodoCardOpen }} determineTheNextId={determineTheNextId} />
+        <AddNewTodo todosObject={{ todos, setTodos }} newTodoCardOpen={{ isNewTodoCardOpen, setIsNewTodoCardOpen }} />
       </div>
 
     </Router >

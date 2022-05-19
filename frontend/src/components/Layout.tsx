@@ -1,21 +1,24 @@
 import React, { useRef, useEffect, useCallback } from 'react'
 import { Link, Outlet, useNavigate } from 'react-router-dom'
 import { GrAdd } from 'react-icons/gr'
+import { styleAsActive, styleAsInactive } from '../utils/utils'
 
 interface IProps {
       newTodoCardOpen: {
             isNewTodoCardOpen: boolean,
             setIsNewTodoCardOpen: React.Dispatch<React.SetStateAction<boolean>>
-      }
+      },
+      todoNotification: number,
+      activityNotification: number
 }
 
-function Layout({ newTodoCardOpen }: IProps) {
+function Layout({ newTodoCardOpen, todoNotification, activityNotification }: IProps) {
 
       const { isNewTodoCardOpen, setIsNewTodoCardOpen } = newTodoCardOpen
 
-      const notificationTextRef = useRef<HTMLAnchorElement | null>(null)
+      const activityTextRef = useRef<HTMLAnchorElement | null>(null)
       const todoTextRef = useRef<HTMLAnchorElement | null>(null)
-      const notificationActiveRef = useRef<HTMLDivElement | null>(null)
+      const activityActiveRef = useRef<HTMLDivElement | null>(null)
       const todoActiveRef = useRef<HTMLDivElement | null>(null)
       const addIconRef = useRef<HTMLDivElement | null>(null)
 
@@ -23,29 +26,15 @@ function Layout({ newTodoCardOpen }: IProps) {
 
       const appointActiveTab = useCallback((elementID: string) => {
             switch (elementID) {
-                  case "notification":
-                        styleAsActive(notificationTextRef, notificationActiveRef)
+                  case "activity":
+                        styleAsActive(activityTextRef, activityActiveRef)
                         styleAsInactive(todoTextRef, todoActiveRef)
                         break
                   case "todo":
                         styleAsActive(todoTextRef, todoActiveRef)
-                        styleAsInactive(notificationTextRef, notificationActiveRef)
+                        styleAsInactive(activityTextRef, activityActiveRef)
             }
       }, [])
-
-      const styleAsActive = (textRef: React.MutableRefObject<HTMLAnchorElement | null>, activeRef: React.MutableRefObject<HTMLDivElement | null>) => {
-            if (textRef.current && activeRef.current) {
-                  textRef.current.style.color = "#000"
-                  activeRef.current.style.display = "block"
-            }
-      }
-
-      const styleAsInactive = (textRef: React.MutableRefObject<HTMLAnchorElement | null>, activeRef: React.MutableRefObject<HTMLDivElement | null>) => {
-            if (textRef.current && activeRef.current) {
-                  textRef.current.style.color = "rgb(148, 147, 150)"
-                  activeRef.current.style.display = "none"
-            }
-      }
 
       useEffect(() => {
             appointActiveTab("todo")
@@ -60,32 +49,39 @@ function Layout({ newTodoCardOpen }: IProps) {
 
       return (
             <>
-                  <div className="tabs">
-                        <div className="tab" id='notification' onClick={(e) => appointActiveTab(e.currentTarget.id)}>
-                              <Link to="/notification" className='link' ref={notificationTextRef}>
-                                    Notifications
-                              </Link>
-                              <div className='notification-badge'>
-                                    <div className='noti-count'>1</div>
+                  <div className='scroll-container'>
+
+                        <div className="tabs">
+                              <div className="tab" id='activity' onClick={(e) => appointActiveTab(e.currentTarget.id)}>
+                                    <Link to="/activity" className='link' ref={activityTextRef}>
+                                          Activity
+                                    </Link>
+                                    {
+                                          activityNotification > 0 && <div className='notification-badge'>
+                                                <div className='noti-count'>{activityNotification}</div>
+                                          </div>
+                                    }
+                                    <div ref={activityActiveRef} className="active-bar"></div>
+
                               </div>
-                              <div ref={notificationActiveRef} className="active-bar"></div>
 
-                        </div>
-
-                        <div className="tab" id='todo' onClick={(e) => appointActiveTab(e.currentTarget.id)}>
-                              <Link to="/todo" className='link' ref={todoTextRef}>
-                                    Todo
-                              </Link>
-                              <div className='notification-badge'>
-                                    <div className='noti-count'>3</div>
+                              <div className="tab" id='todo' onClick={(e) => appointActiveTab(e.currentTarget.id)}>
+                                    <Link to="/todo" className='link' ref={todoTextRef}>
+                                          Todo
+                                    </Link>
+                                    {
+                                          todoNotification > 0 && <div className='notification-badge'>
+                                                <div className='noti-count'>{todoNotification}</div>
+                                          </div>
+                                    }
+                                    <div ref={todoActiveRef} className="active-bar"></div>
                               </div>
-                              <div ref={todoActiveRef} className="active-bar"></div>
-                        </div>
 
-                        <div className='add-icon' onClick={(e) => setIsNewTodoCardOpen(true)} ref={addIconRef}>
-                              <GrAdd size={25} />
-                        </div>
+                              <div className='add-icon' onClick={(e) => setIsNewTodoCardOpen(true)} ref={addIconRef}>
+                                    <GrAdd size={25} />
+                              </div>
 
+                        </div>
                   </div>
 
                   <Outlet />

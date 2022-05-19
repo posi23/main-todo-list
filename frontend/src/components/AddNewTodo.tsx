@@ -1,20 +1,23 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { BsPerson } from 'react-icons/bs'
 import { FiCalendar } from 'react-icons/fi'
-import { TodoState } from '../utils/utils'
+import { determineTheNextId, getErrorMessage, TodoState } from '../utils/utils'
+import ErrorModal from './ErrorModal'
 import Modal from './Modal'
 
 interface IProps {
-      setTodos: React.Dispatch<React.SetStateAction<TodoState["type"]>>
+      todosObject: {
+            todos: TodoState["type"],
+            setTodos: React.Dispatch<React.SetStateAction<TodoState["type"]>>
+      }
       newTodoCardOpen: {
             isNewTodoCardOpen: boolean,
             setIsNewTodoCardOpen: React.Dispatch<React.SetStateAction<boolean>>
       }
-      determineTheNextId: () => number
 }
 
-function AddNewTodo({ setTodos, newTodoCardOpen, determineTheNextId }: IProps) {
-
+function AddNewTodo({ todosObject, newTodoCardOpen }: IProps) {
+      const { todos, setTodos } = todosObject
       const { isNewTodoCardOpen, setIsNewTodoCardOpen } = newTodoCardOpen
 
       const [taskName, setTaskName] = useState<string>("")
@@ -23,6 +26,7 @@ function AddNewTodo({ setTodos, newTodoCardOpen, determineTheNextId }: IProps) {
       const [assignee, setAssignee] = useState<string>("")
 
       const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+      const [error, setError] = useState<string>("")
 
       const newTodoCardRef = useRef<HTMLDivElement | null>(null)
 
@@ -32,7 +36,7 @@ function AddNewTodo({ setTodos, newTodoCardOpen, determineTheNextId }: IProps) {
             try {
                   validateFields()
                   const newTodo = {
-                        id: determineTheNextId(),
+                        id: determineTheNextId(todos),
                         taskName,
                         description,
                         dueDate: new Date("16 May 2022"),
@@ -46,7 +50,7 @@ function AddNewTodo({ setTodos, newTodoCardOpen, determineTheNextId }: IProps) {
                   clearStateToInitialState()
             }
             catch (err) {
-                  alert(err)
+                  setError(getErrorMessage(err))
             }
       }
 
@@ -109,6 +113,8 @@ function AddNewTodo({ setTodos, newTodoCardOpen, determineTheNextId }: IProps) {
                   </div>
 
                   <Modal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} setAssignee={setAssignee} />
+
+                  <ErrorModal errorMessage={error} setError={setError} />
 
             </div>
       )
