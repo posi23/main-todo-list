@@ -30,7 +30,7 @@
   margin-right: 3em;
 }
 
-.tab .link{
+.link{
   font-weight: bold;
   font-size: 1.2rem;
   letter-spacing: 0.5px;
@@ -39,7 +39,7 @@
   text-decoration: none;
 }
 
-.tab .link:hover{
+.link:hover{
   color: black;
 }
 
@@ -54,6 +54,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  /* cursor: none; */
 }
 
 .noti-count{
@@ -83,6 +84,10 @@
   position: relative;
 }
 
+.activity-display{
+  margin: 1.5em 0;
+}
+
 .completed-circle{
   background-color: #fff;
   width: 20px;
@@ -97,10 +102,19 @@
 .todoItem{
   align-self: flex-start;
   padding-bottom: 1em;
+  font-size: 1.1rem;
 }
 
 .todoItem p{
   margin: 0
+}
+
+.activityItem{
+padding: 0.5em;
+}
+
+.activityItem li{
+  margin: 0 1em 1em;
 }
 
 .completion-time{
@@ -143,6 +157,12 @@
   position: absolute;
   right: 0%;
   cursor: pointer;
+}
+
+.empty-content{
+  margin: 1.5em 0;
+  padding: 0.5em;
+  font-size: 1.1rem;
 }
 
 .add-task-card {

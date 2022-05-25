@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { BsPerson } from 'react-icons/bs'
 import { FiCalendar } from 'react-icons/fi'
-import { determineTheNextId, getErrorMessage, TodoState } from '../utils/utils'
+import { ActivityArray, determineTheNextId, getErrorMessage, sendNewActivity, TodoState } from '../utils/utils'
 import ErrorModal from './ErrorModal'
 import Modal from './Modal'
 
@@ -13,10 +13,12 @@ interface IProps {
       newTodoCardOpen: {
             isNewTodoCardOpen: boolean,
             setIsNewTodoCardOpen: React.Dispatch<React.SetStateAction<boolean>>
-      }
+      },
+      setActivities: React.Dispatch<React.SetStateAction<ActivityArray["activities"]>>
 }
 
-function AddNewTodo({ todosObject, newTodoCardOpen }: IProps) {
+function AddNewTodo({ todosObject, newTodoCardOpen, setActivities }: IProps) {
+
       const { todos, setTodos } = todosObject
       const { isNewTodoCardOpen, setIsNewTodoCardOpen } = newTodoCardOpen
 
@@ -24,7 +26,6 @@ function AddNewTodo({ todosObject, newTodoCardOpen }: IProps) {
       const [description, setDescription] = useState<string>("")
       const [dueDate, setDueDate] = useState<Date>(new Date())
       const [assignee, setAssignee] = useState<string>("")
-
       const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
       const [error, setError] = useState<string>("")
 
@@ -43,10 +44,12 @@ function AddNewTodo({ todosObject, newTodoCardOpen }: IProps) {
                         assignee: assignee,
                         completed: false
                   }
+
                   if (newTodo) {
                         setTodos(prev => [...prev, newTodo])
+                        let activity = sendNewActivity(2, null, newTodo.taskName)
+                        setActivities(prev => [...prev, { activityString: activity, read: false }])
                   }
-
                   clearStateToInitialState()
             }
             catch (err) {

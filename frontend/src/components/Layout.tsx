@@ -1,59 +1,58 @@
-import React, { useRef, useEffect, useCallback } from 'react'
-import { Link, Outlet, useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom'
 import { GrAdd } from 'react-icons/gr'
-import { styleAsActive, styleAsInactive } from '../utils/utils'
 
 interface IProps {
       newTodoCardOpen: {
             isNewTodoCardOpen: boolean,
             setIsNewTodoCardOpen: React.Dispatch<React.SetStateAction<boolean>>
       },
-      todoNotification: number,
-      activityNotification: number
+      notifications: {
+            todoNotification: number,
+            activityNotification: number,
+      },
+      currentTab: string
 }
 
-function Layout({ newTodoCardOpen, todoNotification, activityNotification }: IProps) {
+function Layout({ newTodoCardOpen, notifications, currentTab }: IProps) {
 
+      const { todoNotification, activityNotification } = notifications
       const { isNewTodoCardOpen, setIsNewTodoCardOpen } = newTodoCardOpen
 
-      const activityTextRef = useRef<HTMLAnchorElement | null>(null)
-      const todoTextRef = useRef<HTMLAnchorElement | null>(null)
-      const activityActiveRef = useRef<HTMLDivElement | null>(null)
-      const todoActiveRef = useRef<HTMLDivElement | null>(null)
-      const addIconRef = useRef<HTMLDivElement | null>(null)
-
+      const location = useLocation()
       const navigate = useNavigate()
 
-      const appointActiveTab = useCallback((elementID: string) => {
-            switch (elementID) {
-                  case "activity":
-                        styleAsActive(activityTextRef, activityActiveRef)
-                        styleAsInactive(todoTextRef, todoActiveRef)
-                        break
-                  case "todo":
-                        styleAsActive(todoTextRef, todoActiveRef)
-                        styleAsInactive(activityTextRef, activityActiveRef)
+      const styles = {
+            active: {
+                  display: "block",
+                  color: "#000"
+
+            },
+            inactive: {
+                  display: "none",
+                  color: "rgb(148, 147, 150)",
+
             }
-      }, [])
+      }
 
       useEffect(() => {
-            appointActiveTab("todo")
             navigate("/todo")
             // eslint-disable-next-line react-hooks/exhaustive-deps
-      }, [appointActiveTab])
-
-      useEffect(() => {
-            if (isNewTodoCardOpen && addIconRef.current) addIconRef.current.style.display = 'none'
-            else if (!isNewTodoCardOpen && addIconRef.current) addIconRef.current.style.display = 'block'
-      }, [isNewTodoCardOpen])
+      }, [])
 
       return (
             <>
                   <div className='scroll-container'>
 
                         <div className="tabs">
-                              <div className="tab" id='activity' onClick={(e) => appointActiveTab(e.currentTarget.id)}>
-                                    <Link to="/activity" className='link' ref={activityTextRef}>
+                              <div className="tab">
+                                    <Link
+                                          to="activity"
+                                          state={{ prevPath: location.pathname }}
+                                          className='link'
+                                          style={{ color: currentTab === "activity" ? styles.active.color : styles.inactive.color }}
+                                    // onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => setCurrentTab("activity")}
+                                    >
                                           Activity
                                     </Link>
                                     {
@@ -61,12 +60,22 @@ function Layout({ newTodoCardOpen, todoNotification, activityNotification }: IPr
                                                 <div className='noti-count'>{activityNotification}</div>
                                           </div>
                                     }
-                                    <div ref={activityActiveRef} className="active-bar"></div>
+                                    <div
+                                          style={{ display: currentTab === "activity" ? styles.active.display : styles.inactive.display }}
+                                          className="active-bar">
+                                    </div>
 
                               </div>
 
-                              <div className="tab" id='todo' onClick={(e) => appointActiveTab(e.currentTarget.id)}>
-                                    <Link to="/todo" className='link' ref={todoTextRef}>
+                              <div className="tab">
+                                    <Link
+                                          to="/todo"
+                                          state={{ prevPath: location.pathname }}
+                                          className='link'
+                                          style={{ color: currentTab === "todo" ? styles.active.color : styles.inactive.color }}
+                                    // onClick={(e: React.MouseEvent<HTMLAnchorElement, MouseEvent>) => setCurrentTab("todo")}
+
+                                    >
                                           Todo
                                     </Link>
                                     {
@@ -74,10 +83,17 @@ function Layout({ newTodoCardOpen, todoNotification, activityNotification }: IPr
                                                 <div className='noti-count'>{todoNotification}</div>
                                           </div>
                                     }
-                                    <div ref={todoActiveRef} className="active-bar"></div>
+                                    <div
+                                          style={{ display: currentTab === "todo" ? styles.active.display : styles.inactive.display }}
+                                          className="active-bar">
+                                    </div>
                               </div>
 
-                              <div className='add-icon' onClick={(e) => setIsNewTodoCardOpen(true)} ref={addIconRef}>
+                              <div
+                                    className='add-icon'
+                                    onClick={(e) => setIsNewTodoCardOpen(true)}
+                                    style={{ display: isNewTodoCardOpen ? "none" : "block" }}
+                              >
                                     <GrAdd size={25} />
                               </div>
 

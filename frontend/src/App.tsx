@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
-import { getAmountOfUncompletedTodos, TodoState } from './utils/utils';
+import { ActivityArray, getAmountOfUncompletedTodos, getAmountOfUnreadActivities, TodoState } from './utils/utils';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom'
 import Todo from './tabs/Todo';
 import Layout from './components/Layout';
@@ -28,14 +28,28 @@ function App() {
     }
   ])
 
+  const [activities, setActivities] = useState<ActivityArray["activities"]>([
+    {
+      activityString: 'Esther Howard has set task "Complete main UI components" to complete',
+      read: false
+    }
+  ])
+
   const [isNewTodoCardOpen, setIsNewTodoCardOpen] = useState<boolean>(false)
   const [activityNotification, setActivityNotification] = useState<number>(1)
   const [todoNotification, setTodoNotification] = useState<number>(0)
+  const [currentTab, setCurrentTab] = useState<string>("todo")
+
 
   useEffect(() => {
     let newTodoNotification = getAmountOfUncompletedTodos(todos)
     setTodoNotification(newTodoNotification)
   }, [todos])
+
+  useEffect(() => {
+    let newActivityNotification = getAmountOfUnreadActivities(activities)
+    setActivityNotification(newActivityNotification)
+  }, [activities])
 
   return (
     <Router>
@@ -44,15 +58,21 @@ function App() {
           <Routes>
             <Route path="/" element={<Layout
               newTodoCardOpen={{ isNewTodoCardOpen, setIsNewTodoCardOpen }}
-              todoNotification={todoNotification}
-              activityNotification={activityNotification} />}>
-              <Route path="/activity" element={<Activity />} />
-              <Route path="/todo" element={<Todo todosObject={{ todos, setTodos }} />} />
+              notifications={{ todoNotification, activityNotification }}
+              currentTab={currentTab} />}>
+              <Route path="/activity" element={<Activity activitiesObject={{ activities, setActivities }} setCurrentTab={setCurrentTab} />} />
+              <Route path="/todo" element={<Todo
+                todosObject={{ todos, setTodos }}
+                setActivities={setActivities}
+                setCurrentTab={setCurrentTab} />} />
             </Route>
           </Routes>
         </div>
 
-        <AddNewTodo todosObject={{ todos, setTodos }} newTodoCardOpen={{ isNewTodoCardOpen, setIsNewTodoCardOpen }} />
+        <AddNewTodo
+          todosObject={{ todos, setTodos }}
+          newTodoCardOpen={{ isNewTodoCardOpen, setIsNewTodoCardOpen }}
+          setActivities={setActivities} />
       </div>
 
     </Router >
