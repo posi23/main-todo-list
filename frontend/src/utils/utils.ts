@@ -66,3 +66,8 @@ export const sendNewActivity = (activityType: number, nameOfActivator: string | 
       }
       return newActivity
 }
+
+export const getMonths = (monthInNumber: number): string => {
+      const arrayOfMonths = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+      return arrayOfMonths[monthInNumber - 1]
+} 

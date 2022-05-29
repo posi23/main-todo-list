@@ -208,7 +208,7 @@ padding: 0.5em;
   margin-bottom: 1em;
 }
 
-.date-btn, .assignee-btn, .cancel-btn,
+.assignee-btn, .cancel-btn,
 .add-btn, .reset-assignee-btn, .confirm-assignee-btn, .ok-close-btn{
   border: 1px solid rgba(0, 0, 0, 0.215);
   border-radius: 10px;
@@ -222,6 +222,34 @@ padding: 0.5em;
   cursor: pointer;
   color: rgb(106, 99, 113);
   font-weight: bold;
+}
+
+.date-input{
+  border: none;
+  background: rgb(100, 24, 162);
+  color: white;
+  /* margin-left: 2em; */
+  width: 100%;
+  font-weight: bold;
+  outline: none;
+  cursor: pointer;
+}
+
+.date-btn{
+  background-color: rgb(100, 24, 162);
+  border: 1px solid rgba(0, 0, 0, 0.215);
+  border-radius: 10px;
+  font-size: 1rem;
+  text-align: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  font-weight: bold;
+  color: white;
+  width: 100%;
+  margin: 0;
+  padding: 0.3em 0.8em;
 }
 
 .assignee-btn, .add-btn{

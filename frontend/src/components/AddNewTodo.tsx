@@ -4,6 +4,8 @@ import { FiCalendar } from 'react-icons/fi'
 import { ActivityArray, determineTheNextId, getErrorMessage, sendNewActivity, TodoState } from '../utils/utils'
 import ErrorModal from './ErrorModal'
 import Modal from './Modal'
+import DatePicker from 'react-datepicker'
+import 'react-datepicker/dist/react-datepicker.css'
 
 interface IProps {
       todosObject: {
@@ -31,6 +33,17 @@ function AddNewTodo({ todosObject, newTodoCardOpen, setActivities }: IProps) {
 
       const newTodoCardRef = useRef<HTMLDivElement | null>(null)
 
+      const CustomInput = (props: React.HTMLProps<HTMLInputElement>, ref: React.Ref<HTMLInputElement>) => {
+            return (
+                  <button className="date-btn">
+                        <span><FiCalendar size={20} /></span>
+                        <input {...props} className='date-input' />
+                  </button>
+
+
+            );
+      };
+
       const addNewTodoToTheList = (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
             event.preventDefault()
 
@@ -40,8 +53,8 @@ function AddNewTodo({ todosObject, newTodoCardOpen, setActivities }: IProps) {
                         id: determineTheNextId(todos),
                         taskName,
                         description,
-                        dueDate: new Date("16 May 2022"),
-                        assignee: assignee,
+                        dueDate,
+                        assignee,
                         completed: false
                   }
 
@@ -93,10 +106,9 @@ function AddNewTodo({ todosObject, newTodoCardOpen, setActivities }: IProps) {
 
                   <div className='button-container'>
                         <div className='completion-time-buttons'>
-                              <button className='date-btn'>
-                                    <span><FiCalendar size={20} /></span>
-                                    Due Date
-                              </button>
+                              <div>
+                                    <DatePicker selected={dueDate} onChange={date => date && setDueDate(date)} customInput={React.createElement(React.forwardRef(CustomInput))} />
+                              </div>
 
                               <button className='assignee-btn' onClick={() => setIsModalOpen(true)}>
                                     <span><BsPerson size={20} /></span>

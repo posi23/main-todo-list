@@ -1,4 +1,4 @@
-import { ActivityArray, sendNewActivity, TodoState } from '../utils/utils'
+import { ActivityArray, getMonths, sendNewActivity, TodoState } from '../utils/utils'
 import { FiCalendar } from "react-icons/fi"
 import { BsPerson, BsDot, BsCheckLg, BsTrash } from "react-icons/bs"
 import { useEffect, useCallback } from 'react'
@@ -78,7 +78,7 @@ function Todo({ todosObject, setActivities, setCurrentTab }: IProps) {
                                                 <span>
                                                       <FiCalendar size={18} />
                                                 </span>
-                                                {todo.dueDate.toLocaleDateString()}
+                                                {`${todo.dueDate.getDate()} ${getMonths(todo.dueDate.getMonth())} ${todo.dueDate.getFullYear()}`}
                                           </p>
                                           <p className='splitting-dot'>
                                                 <BsDot color='rgb(162, 156, 168)' />
