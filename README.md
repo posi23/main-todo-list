@@ -28,3 +28,4 @@ https://user-images.githubusercontent.com/62328538/205457926-09dac37a-6554-48f4-
 
 
 
+**NOTE**: This a fully working application as shown in the video above but there are still features of this application yet to be implemented, and will be done soon enough
